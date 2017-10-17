@@ -7,10 +7,10 @@ Additions include:
 - Added some comments w.r.t. problems I ran into.
 - Updated some versions (cuda8-v5.1 -> cuda8-v6.0; tensorflow 1.2 -> tensorflow 1.3)
 	
-00. Make sure you have proprietary NVIDIA drivers first
+-1. Make sure you have proprietary NVIDIA drivers first
 Using the `Software & Updates` ubuntu application under the `Additional Drivers`tab select the nvidia-384 proprietary drivers and click `Apply Changes`. 
 
-TODO:add screenshot 
+![Image of ubuntu Software & Updates, Additional Drivers tab](https://github.com/dietercastel/tensorflow-gpu-install-ubuntu-16.04/raw/master/proprietary_drivers.png)
 
 0. update apt-get   
 ``` bash 
@@ -41,8 +41,8 @@ nvidia-smi
 # if not, the previous steps failed.   
 ``` 
 *Comment:
-When I had no nvidia proprietary graphics card drivers installed (step 00) I got the folloing message:
-'NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.' Doing step 00 should remedy this.
+When I had no nvidia proprietary graphics card drivers installed (step -1) I got the folloing message:
+'NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.' Doing step -1 should remedy this.
 If succesful you get this kind of output:
 *
 ``` 
@@ -101,6 +101,7 @@ sudo sh cuda_8.0.61_375.26_linux.run   # press and hold s to skip agreement
 # Copying samples to /home/liping/NVIDIA_CUDA-8.0_Samples now…
 # Finished copying samples.
 ```    
+*Comment: williamFalcon provided the binary from his own s3 /personal-waf. If you want to get the file straight from nvidia you have to sign up as developer.*  
 
 4. Install cudnn   
 ``` bash
