@@ -6,6 +6,7 @@ Additions include:
 
 - Added some comments w.r.t. problems I ran into.
 - Updated some versions (cuda8-v5.1 -> cuda8-v6.0; tensorflow 1.2 -> tensorflow 1.3)
+- Added sha256 checksums for the binaries I used.
 	
 -1. Make sure you have proprietary NVIDIA drivers first
 Using the `Software & Updates` ubuntu application under the `Additional Drivers`tab select the nvidia-384 proprietary drivers and click `Apply Changes`. 
@@ -101,7 +102,7 @@ sudo sh cuda_8.0.61_375.26_linux.run   # press and hold s to skip agreement
 # Copying samples to /home/liping/NVIDIA_CUDA-8.0_Samples now…
 # Finished copying samples.
 ```    
-*Comment: williamFalcon provided the binary from his own s3 /personal-waf. If you want to get the file straight from nvidia you have to sign up as developer.*  
+*Comment: williamFalcon provided the binary from his own s3 /personal-waf. If you want to get the file straight from nvidia you have to sign up as developer (as far as I can tell checksum is legit).*
 
 4. Install cudnn   
 ``` bash
