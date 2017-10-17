@@ -1,5 +1,16 @@
-# Tensorflow GPU install on ubuntu 16.04    
+# Addtions to Tensorflow GPU install on ubuntu 16.04    
 
+Small additions and notes (for myself and others willing to try it) to [Tensorflow GPU install on ubuntu 16.04](https://github.com/williamFalcon/tensorflow-gpu-install-ubuntu-16.04).
+
+Additions include:
+
+- Added some comments w.r.t. problems I ran into.
+- Updated some versions (cuda8-v5.1 -> cuda8-v6.0; tensorflow 1.2 -> tensorflow 1.3)
+	
+00. Make sure you have proprietary NVIDIA drivers first
+Using the `Software & Updates` ubuntu application under the `Additional Drivers`tab select the nvidia-384 proprietary drivers and click `Apply Changes`. 
+
+TODO:add screenshot 
 
 0. update apt-get   
 ``` bash 
@@ -8,17 +19,19 @@ sudo apt-get update
    
 1. Install apt-get deps  
 ``` bash
-sudo apt-get install openjdk-8-jdk git python-dev python3-dev python-numpy python3-numpy build-essential python-pip python3-pip python-virtualenv swig python-wheel libcurl3-dev   
+sudo apt-get install openjdk-8-jdk git python-dev python3-dev python-numpy python3-numpy build-essential python-pip python3-pip python-virtualenv swig python-wheel libcurl3-dev curl
 ```
+*Comment: added curl for step 2 (wget would also work but whatever)*
 
 2. install nvidia drivers 
 ``` bash
 # The 16.04 installer works with 16.10.
 curl -O http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
-dpkg -i ./cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
-apt-get update
-apt-get install cuda -y
+sudo dpkg -i ./cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
+sudo apt-get update
+sudo apt-get install cuda -y
 ```  
+*Comment: added sudo*
 
 2a. check nvidia driver install 
 ``` bash
@@ -26,6 +39,31 @@ nvidia-smi
 
 # you should see a list of gpus printed    
 # if not, the previous steps failed.   
+``` 
+*Comment:
+When I had no nvidia proprietary graphics card drivers installed (step 00) I got the folloing message:
+'NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.' Doing step 00 should remedy this.
+If succesful you get this kind of output:
+*
+``` 
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 384.66                 Driver Version: 384.66                    |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  GeForce GTX 106...  Off  | 00000000:01:00.0  On |                  N/A |
+|  0%   37C    P8    11W / 180W |    224MiB /  6064MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID  Type  Process name                               Usage      |
+|=============================================================================|
+|    0      1029    G   /usr/lib/xorg/Xorg                             175MiB |
+|    0      1736    G   compiz                                          45MiB |
+|    0      2016    G   unity-control-center                             1MiB |
++-----------------------------------------------------------------------------+
 ``` 
 
 3. install cuda toolkit (MAKE SURE TO SELECT N TO INSTALL NVIDIA DRIVERS)
@@ -66,12 +104,13 @@ sudo sh cuda_8.0.61_375.26_linux.run   # press and hold s to skip agreement
 
 4. Install cudnn   
 ``` bash
-wget https://s3.amazonaws.com/personal-waf/cudnn-8.0-linux-x64-v5.1.tgz   
-sudo tar -xzvf cudnn-8.0-linux-x64-v5.1.tgz   
+wget http://developer.download.nvidia.com/compute/redist/cudnn/v6.0/cudnn-8.0-linux-x64-v6.0.tgz
+sudo tar -xzvf cudnn-8.0-linux-x64-v6.0.tgz   
 sudo cp cuda/include/cudnn.h /usr/local/cuda/include
 sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
 sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
 ```    
+*Comment: I updated the link for cuda 8.0-v6.0*
 
 5. Add these lines to end of ~/.bashrc:   
 ``` bash
@@ -110,20 +149,22 @@ source ~/.bashrc
 
 9. Create conda env to install tf   
 ``` bash
-conda create -n tensorflow
+conda create -n tensorflow-gpu
 
 # press y a few times 
 ```   
+*Comment: changed the name to tensorflow-gpu because I find it useful to also have a cpu conda environment.*
 
 10. Activate env   
 ``` bash
-source activate tensorflow   
+source activate tensorflow-gpu   
 ```
+*Comment: updated name accordingly* 
 
 11. Install tensorflow with GPU support for python 3.6    
 ``` bash
 # pip install --ignore-installed --upgrade aTFUrl
-pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.2.0-cp36-cp36m-linux_x86_64.whl
+pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.3.0-cp36-cp36m-linux_x86_64.whl
 ```   
 
 12. Test tf install   
