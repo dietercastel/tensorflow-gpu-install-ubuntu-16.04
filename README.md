@@ -7,6 +7,7 @@ Additions include:
 - Added some comments w.r.t. problems I ran into.
 - Updated some versions (cuda8-v5.1 -> cuda8-v6.0; tensorflow 1.2 -> tensorflow 1.3)
 - Added sha256 checksums for the binaries I used.
+- Added checksum checks.
 	
 -1. Make sure you have proprietary NVIDIA drivers first
 Using the `Software & Updates` ubuntu application under the `Additional Drivers`tab select the nvidia-384 proprietary drivers and click `Apply Changes`. 
@@ -28,11 +29,12 @@ sudo apt-get install openjdk-8-jdk git python-dev python3-dev python-numpy pytho
 ``` bash
 # The 16.04 installer works with 16.10.
 curl -O http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
+echo "9ef12d64d5db7229c37eb40349f1734b69501865d0530da96bdd6d063d80fb47  cuda-repo-ubuntu1604_8.0.61-1_amd64.deb" | sha256sum -c
 sudo dpkg -i ./cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
 sudo apt-get update
 sudo apt-get install cuda -y
 ```  
-*Comment: added sudo*
+*Comment: added sudo and a checksum verification command.*
 
 2a. check nvidia driver install 
 ``` bash
@@ -70,6 +72,7 @@ If succesful you get this kind of output:
 3. install cuda toolkit (MAKE SURE TO SELECT N TO INSTALL NVIDIA DRIVERS)
 ``` bash
 wget https://s3.amazonaws.com/personal-waf/cuda_8.0.61_375.26_linux.run   
+echo "9ceca9c2397f841024e03410bfd6eabfd72b384256fbed1c1e4834b5b0ce9dc4  cuda_8.0.61_375.26_linux.run" | sha256sum -c 
 sudo sh cuda_8.0.61_375.26_linux.run   # press and hold s to skip agreement   
 
 # Do you accept the previously read EULA?
@@ -102,17 +105,18 @@ sudo sh cuda_8.0.61_375.26_linux.run   # press and hold s to skip agreement
 # Copying samples to /home/liping/NVIDIA_CUDA-8.0_Samples now…
 # Finished copying samples.
 ```    
-*Comment: williamFalcon provided the binary from his own s3 /personal-waf. If you want to get the file straight from nvidia you have to sign up as developer (as far as I can tell checksum is legit).*
+*Comment: williamFalcon provided the binary from his own s3 /personal-waf. If you want to get the file straight from nvidia you have to sign up as developer (as far as I can tell checksum is legit). Added a checksum check with the binary I used that worked.*
 
 4. Install cudnn   
 ``` bash
 wget http://developer.download.nvidia.com/compute/redist/cudnn/v6.0/cudnn-8.0-linux-x64-v6.0.tgz
+echo "9b09110af48c9a4d7b6344eb4b3e344daa84987ed6177d5c44319732f3bb7f9c  cudnn-8.0-linux-x64-v6.0.tgz" | sha256sum -c 
 sudo tar -xzvf cudnn-8.0-linux-x64-v6.0.tgz   
 sudo cp cuda/include/cudnn.h /usr/local/cuda/include
 sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
 sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
 ```    
-*Comment: I updated the link for cuda 8.0-v6.0*
+*Comment: I updated the link for cuda 8.0-v6.0 and added checksum check.*
 
 5. Add these lines to end of ~/.bashrc:   
 ``` bash
