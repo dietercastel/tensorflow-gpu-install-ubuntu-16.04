@@ -152,28 +152,20 @@ bash Miniconda3-latest-Linux-x86_64.sh
 ``` bash 
 source ~/.bashrc
 ```   
+9. Run [createCondaEnvs.sh](https://github.com/dietercastel/tensorflow-gpu-install-ubuntu-16.04/raw/master/createCondaEnvs.sh) to create *tensorflow* and *tensorflow-gpu* conda environments.
 
-9. Create conda env to install tf   
+10. Activate env 
+
+For CPU environment:
 ``` bash
-conda create -n tensorflow-gpu
-
-# press y a few times 
-```   
-*Comment: changed the name to tensorflow-gpu because I find it useful to also have a cpu conda environment.*
-
-10. Activate env   
+source activate tensorflow   
+```
+For GPU environment:
 ``` bash
 source activate tensorflow-gpu   
 ```
-*Comment: updated name accordingly* 
 
-11. Install tensorflow with GPU support for python 3.6    
-``` bash
-# pip install --ignore-installed --upgrade aTFUrl
-pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.3.0-cp36-cp36m-linux_x86_64.whl
-```   
-
-12. Test tf install   
+11. Test tf install   
 ``` bash
 # start python shell   
 python
