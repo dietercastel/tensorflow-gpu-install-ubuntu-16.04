@@ -8,6 +8,7 @@ Additions include:
 - Updated some versions (cuda8-v5.1 -> cuda8-v6.0; tensorflow 1.2 -> tensorflow 1.3)
 - Added sha256 checksums for the binaries I used.
 - Added checksum checks.
+- Added a script for installing a cpu and a gpu conda environment each with: tensorflow(-gpu), keras and keras-vis.
 	
 -1. Make sure you have proprietary NVIDIA drivers first
 Using the `Software & Updates` ubuntu application under the `Additional Drivers`tab select the nvidia-384 proprietary drivers and click `Apply Changes`. 
